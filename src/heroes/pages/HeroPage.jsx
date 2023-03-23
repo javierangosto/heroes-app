@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { getHeroeById } from "../helpers";
 
@@ -8,7 +9,8 @@ export const HeroPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const hero = getHeroeById( id );
+    //Con el useMemo solamente se ejecutará la función cuando cambie el ID
+    const hero = useMemo( () => getHeroeById( id ), [ id ]);
     const heroImageUrl = `/assets/heroes/${ id }.jpg`;
 
     const handleNavigateBack = () =>{

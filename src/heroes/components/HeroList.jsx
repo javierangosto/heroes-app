@@ -1,10 +1,12 @@
+import { useMemo } from "react";
 import { getHeroesByPublisher } from "../helpers"
 import { HeroCard } from "./";
 
 
 export const HeroList = ({ publisher }) => {
 
-    const heroes = getHeroesByPublisher( publisher );
+    //Con el useMemo solamente se ejecutará la función cuando cambie el publisher
+    const heroes = useMemo( () => getHeroesByPublisher( publisher ), [ publisher ] ); 
 
     return (
 
