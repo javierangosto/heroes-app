@@ -1,8 +1,9 @@
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import queryString from 'query-string';
 
 import { useForm } from "../../hooks/useForm";
 import { HeroCard } from "../components";
+import { getHeroByName } from "../helpers";
 
 export const SearchPage = () => {
 
@@ -11,18 +12,21 @@ export const SearchPage = () => {
 
     const { q = '' } = queryString.parse(location.search); //querystring devuelve un objeto con los parametros separado
 
+    const heroes = getHeroByName( q );
+
+    const showSearch = ( q.length === 0 );
+    const showError = ( q.length > 0 && heroes.length === 0 );
+
     const { searchText, handleInputChange } = useForm({
-        searchText: '',
+        searchText: q,        
     });
 
     const handleSarchSubmit = ( event ) => {
-        event.preventDefault();
 
-        if ( searchText.trim() <= 1 ) return;
+        event.preventDefault();
 
         //si no se indica ruta en el navigate, por defecto navegará a la página actual
         navigate(`?q=${ searchText }`);
-
 
     }
 
@@ -58,14 +62,26 @@ export const SearchPage = () => {
                     <h4>Results</h4>            
                     <hr/>
 
-                    <div className="alert alert-primary">
+                    <div 
+                        className="alert alert-primary animate__animated animate__fadeIn"
+                        style={{ display: showSearch ? '' : 'none' }}
+                    >
                         Search a hero
                     </div>
-                    <div className="alert alert-danger">
+
+                    <div 
+                        className="alert alert-danger animate__animated animate__fadeIn"
+                        style={{ display: showError ? '' : 'none' }}
+                    >
                         No hero with <b>{ q }</b>
                     </div>
+
+                    {
+                        heroes.map( hero => (
+                            <HeroCard key = { hero.id } {...hero} />
+                        ))
+                    }
                     
-                    {/* <HeroCard /> */}
                 </div>
             </div>
         </>
