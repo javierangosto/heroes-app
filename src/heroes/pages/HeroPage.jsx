@@ -24,7 +24,7 @@ export const HeroPage = () => {
 
     return (
         <div className="row mt-5">
-            <div className="col-4">
+            <div className="col-4 animate__animated animate__fadeInLeft">
                 <img src={ heroImageUrl } alt={ hero.superhero } className="img-thumbnail" />
             </div>
 
