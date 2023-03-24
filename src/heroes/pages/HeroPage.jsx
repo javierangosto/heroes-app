@@ -11,7 +11,7 @@ export const HeroPage = () => {
 
     //Con el useMemo solamente se ejecutará la función cuando cambie el ID
     const hero = useMemo( () => getHeroeById( id ), [ id ]);
-    const heroImageUrl = `/assets/heroes/${ id }.jpg`;
+    const heroImageUrl = `/heroes/${ id }.jpg`;
 
     const handleNavigateBack = () =>{
         //-1 retrocede al sitio anterior
