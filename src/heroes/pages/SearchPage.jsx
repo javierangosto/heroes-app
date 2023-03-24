@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import queryString from 'query-string';
+//import queryString from 'query-string'; Comento ya que genera conflicto con los test de jest
 
 import { useForm } from "../../hooks/useForm";
 import { HeroCard } from "../components";
@@ -10,8 +10,7 @@ export const SearchPage = () => {
     const navigate = useNavigate();
     const location = useLocation(); //Location devuelve un objeto con la ruta actual, parametros, ...
 
-    const { q = '' } = queryString.parse(location.search); //querystring devuelve un objeto con los parametros separado
-
+    const q = location.search.slice(3); 
     const heroes = getHeroByName( q );
 
     const showSearch = ( q.length === 0 );
@@ -40,7 +39,10 @@ export const SearchPage = () => {
                 <div className="col-5">
                     <h4>Searching</h4>
                     <hr/>
-                    <form onSubmit={ handleSarchSubmit }>
+                    <form 
+                        onSubmit={ handleSarchSubmit }
+                        aria-label="form"
+                    >
                         <input
                             type="text"
                             placeholder="Search a hero..."
@@ -65,6 +67,7 @@ export const SearchPage = () => {
                     <div 
                         className="alert alert-primary animate__animated animate__fadeIn"
                         style={{ display: showSearch ? '' : 'none' }}
+                        aria-label='divSearchHero'
                     >
                         Search a hero
                     </div>
@@ -72,6 +75,7 @@ export const SearchPage = () => {
                     <div 
                         className="alert alert-danger animate__animated animate__fadeIn"
                         style={{ display: showError ? '' : 'none' }}
+                        aria-label='divSearchError'
                     >
                         No hero with <b>{ q }</b>
                     </div>
